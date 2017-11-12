@@ -4,7 +4,7 @@
 
 ## ESDoc2
 
-ESDoc2 is a drop-in replacement of ESDoc, a documentation generator for JavaScript. ESDoc2 was created as the result of the original author of ESDoc refusing to add any other contributors to the project, despite the project falling behind.  **If you are using ESDoc, you should switch to ESDoc2.**
+ESDoc2 is a drop-in replacement of ESDoc, a documentation generator for JavaScript. ESDoc2 was created as the result of the original author of ESDoc refusing to add any other contributors to the project.  ESDoc2 is the decentralized version, contributors and maintainers are welcome.
 
 ## Features
 - Generates good documentation.
