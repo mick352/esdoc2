@@ -87,9 +87,8 @@ import NPMUtil from &apos;./Util/NPMUtil.js&apos;;
 import log from &apos;npmlog&apos;;
 
 log.heading = &apos;ESDoc2&apos;;
-
 log.info(&apos;using&apos;, &apos;node@%s&apos;, process.version);
-
+log.info(&apos;using&apos;, &apos;esdoc2@%s&apos;, NPMUtil.findPackage().version);
 /**
  * Command Line Interface for esdoc2.
  *

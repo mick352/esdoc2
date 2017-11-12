@@ -78,8 +78,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/Util/NPMUtil.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import path from &apos;path&apos;;
-import fs from &apos;fs-extra&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {resolve} from &apos;path&apos;;
 
 /**
  * Node Package Manager(npm) util class.
@@ -92,13 +91,11 @@ export default class NPMUtil {
   static findPackage() {
     let packageObj = null;
     try {
-      const packageFilePath = path.resolve(__dirname, &apos;../../package.json&apos;);
-      const json = fs.readFileSync(packageFilePath, {encode: &apos;utf8&apos;});
-      packageObj = JSON.parse(json);
+      const packageFilePath = resolve(__dirname, &apos;../../package.json&apos;);
+      packageObj = require(packageFilePath);
     } catch (e) {
-      const packageFilePath = path.resolve(__dirname, &apos;../../../package.json&apos;);
-      const json = fs.readFileSync(packageFilePath, {encode: &apos;utf8&apos;});
-      packageObj = JSON.parse(json);
+      const packageFilePath = resolve(__dirname, &apos;../../../package.json&apos;);
+      packageObj = require(packageFilePath);
     }
 
     return packageObj;
