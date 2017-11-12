@@ -12,6 +12,7 @@
         "brand": {"title": "esdoc2", "logo": "./manual/asset/image/logo.png"},
         "test": {"source": "./test", "includes": ["\\.test\\.js$"]},
         "manual": {
+          "globalIndex": "true",
           "index": "./README.md",
           "asset": "./manual/asset",
           "files": [
