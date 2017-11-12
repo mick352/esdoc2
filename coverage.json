@@ -1,6 +1,6 @@
 {
-  "coverage": "87.81%",
-  "expectCount": 238,
+  "coverage": "89.31%",
+  "expectCount": 234,
   "actualCount": 209,
   "files": {
     "src/Doc/AbstractDoc.js": {
@@ -30,11 +30,9 @@
       "undocumentLines": []
     },
     "src/Doc/ExternalDoc.js": {
-      "expectCount": 8,
+      "expectCount": 7,
       "actualCount": 7,
-      "undocumentLines": [
-        5
-      ]
+      "undocumentLines": []
     },
     "src/Doc/FileDoc.js": {
       "expectCount": 6,
@@ -57,11 +55,9 @@
       "undocumentLines": []
     },
     "src/Doc/TypedefDoc.js": {
-      "expectCount": 7,
+      "expectCount": 6,
       "actualCount": 6,
-      "undocumentLines": [
-        5
-      ]
+      "undocumentLines": []
     },
     "src/Doc/VariableDoc.js": {
       "expectCount": 4,
@@ -69,29 +65,26 @@
       "undocumentLines": []
     },
     "src/ESDoc.js": {
-      "expectCount": 12,
+      "expectCount": 11,
       "actualCount": 11,
-      "undocumentLines": [
-        15
-      ]
+      "undocumentLines": []
     },
     "src/ESDocCLI.js": {
       "expectCount": 10,
       "actualCount": 9,
       "undocumentLines": [
-        158
+        162
       ]
     },
     "src/Factory/DocFactory.js": {
-      "expectCount": 29,
+      "expectCount": 28,
       "actualCount": 23,
       "undocumentLines": [
         15,
-        16,
+        39,
         40,
         41,
-        42,
-        43
+        42
       ]
     },
     "src/Parser/CommentParser.js": {
@@ -141,8 +134,8 @@
       "expectCount": 7,
       "actualCount": 5,
       "undocumentLines": [
-        8,
-        9
+        7,
+        8
       ]
     },
     "src/Util/NPMUtil.js": {

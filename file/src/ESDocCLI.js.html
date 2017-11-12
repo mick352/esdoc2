@@ -84,6 +84,11 @@ import path from &apos;path&apos;;
 import minimist from &apos;minimist&apos;;
 import esdoc2 from &apos;./ESDoc.js&apos;;
 import NPMUtil from &apos;./Util/NPMUtil.js&apos;;
+import log from &apos;npmlog&apos;;
+
+log.heading = &apos;ESDoc2&apos;;
+
+log.info(&apos;using&apos;, &apos;node@%s&apos;, process.version);
 
 /**
  * Command Line Interface for esdoc2.
@@ -119,7 +124,7 @@ export default class ESDocCLI {
     let config;
 
     const configPath = this._findConfigFilePath();
-    console.log({configPath});
+    log.info(&apos;config&apos;, configPath);
     if (configPath) {
       config = this._createConfigFromJSONFile(configPath);
     } else {
@@ -129,7 +134,6 @@ export default class ESDocCLI {
     if (config) {
       esdoc2.generate(config);
     } else {
-      console.log();
       this._showHelp();
       process.exit(1);
     }

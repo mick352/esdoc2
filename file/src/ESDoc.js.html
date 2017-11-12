@@ -81,7 +81,6 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import fs from &apos;fs-extra&apos;;
 import path from &apos;path&apos;;
 import assert from &apos;assert&apos;;
-import Logger from &apos;color-logger&apos;;
 import ASTUtil from &apos;./Util/ASTUtil.js&apos;;
 import ESParser from &apos;./Parser/ESParser&apos;;
 import PathResolver from &apos;./Util/PathResolver.js&apos;;
@@ -91,8 +90,7 @@ import Plugin from &apos;./Plugin/Plugin.js&apos;;
 import {Transform} from &apos;stream&apos;;
 import json from &apos;big-json&apos;;
 import mkdirp from &apos;mkdirp&apos;;
-
-const logger = new Logger(&apos;esdoc2&apos;);
+import log from &apos;npmlog&apos;;
 
 /**
  * API Documentation Generator.
@@ -121,7 +119,6 @@ export default class ESDoc {
 
       this._setDefaultConfig(config);
 
-      Logger.debug = !!config.debug;
       const includes = config.includes.map((v) =&gt; new RegExp(v));
       const excludes = config.excludes.map((v) =&gt; new RegExp(v));
 
@@ -141,7 +138,7 @@ export default class ESDoc {
       let results = [];
       const sourceDirPath = path.resolve(config.source);
       const onWriteFinish = () =&gt; {
-        console.log(&apos;ast write complete&apos;);
+        log.info(&apos;esdoc2&apos;, &apos;finished generating files&apos;);
 
         // publish
         this._publish(config);
@@ -153,7 +150,7 @@ export default class ESDoc {
       };
 
       const fatalError = err =&gt; {
-        console.error(err);
+        log.error(err);
         process.exit(1);
       };
 
@@ -164,14 +161,16 @@ export default class ESDoc {
           const fullPath = path.resolve(config.destination, `ast/${chunk.filePath}.json`);
           mkdirp(fullPath.split(&apos;/&apos;).slice(0, -1).join(&apos;/&apos;), (err) =&gt; {
             if (err) fatalError(err);
-
+            log.verbose(&apos;transform&apos;, fullPath);
             const fileWriteStream = fs.createWriteStream(fullPath);
             fileWriteStream.on(&apos;error&apos;, fatalError);
+            fileWriteStream.on(&apos;finish&apos;, () =&gt; log.verbose(&apos;write&apos;, fullPath));
             fileWriteStream.on(&apos;finish&apos;, transformCallback);
 
             const stringifyStream = json.createStringifyStream({body: chunk.ast});
             stringifyStream.on(&apos;error&apos;, fatalError);
             stringifyStream.on(&apos;end&apos;, fileWriteStream.end);
+            stringifyStream.on(&apos;end&apos;, () =&gt; log.verbose(&apos;stringified&apos;, fullPath));
             stringifyStream.pipe(fileWriteStream);
           });
         }
@@ -180,7 +179,6 @@ export default class ESDoc {
       stringifyWriteTransform.on(&apos;finish&apos;, onWriteFinish);
       stringifyWriteTransform.on(&apos;error&apos;, fatalError);
 
-      // const asts = [];
       this._walk(config.source, (filePath) =&gt; {
         const relativeFilePath = path.relative(sourceDirPath, filePath);
         let match = false;
@@ -196,7 +194,7 @@ export default class ESDoc {
           if (relativeFilePath.match(reg)) return;
         }
 
-        console.log(`parse: ${filePath}`);
+        log.info(&apos;parse&apos;, filePath);
         const temp = this._traverse(config.source, filePath, packageName, mainFilePath);
         if (!temp) return;
         results.push(...temp.results);
@@ -254,7 +252,7 @@ export default class ESDoc {
 
     for (const [key, plugin] of keys) {
       if (key in config) {
-        console.log(`[31merror: config.${key} is invalid. Please use ${plugin}. how to migration: https://esdoc2.org/manual/migration.html[0m`);
+        console.error(`[31merror: config.${key} is invalid. Please use ${plugin}. how to migration: https://esdoc2.org/manual/migration.html[0m`);
         exit = true;
       }
     }
@@ -310,7 +308,7 @@ export default class ESDoc {
    * @private
    */
   static _traverse(inDirPath, filePath, packageName, mainFilePath) {
-    logger.i(`parsing: ${filePath}`);
+    log.verbose(`parsing: ${filePath}`);
     let ast;
     try {
       ast = ESParser.parse(filePath);
@@ -426,14 +424,14 @@ export default class ESDoc {
       const write = (filePath, content, option) =&gt; {
         const _filePath = path.resolve(config.destination, filePath);
         content = Plugin.onHandleContent(content, _filePath);
-
-        console.log(`output: ${_filePath}`);
+        
+        log.info(&apos;write&apos;, _filePath);
         fs.outputFileSync(_filePath, content, option);
       };
 
       const copy = (srcPath, destPath) =&gt; {
         const _destPath = path.resolve(config.destination, destPath);
-        console.log(`output: ${_destPath}`);
+        log.info(&apos;copy&apos;, _destPath);
         fs.copySync(srcPath, _destPath);
       };
 
@@ -456,7 +454,7 @@ export default class ESDoc {
   static _memUsage() {
     const used = process.memoryUsage();
     Object.keys(used).forEach(key =&gt; {
-      console.log(`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`);
+      log.verbose(`${key} ${Math.round(used[key] / 1024 / 1024 * 100) / 100} MB`);
     });
   }
 }

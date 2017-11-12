@@ -78,12 +78,9 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/Doc/ExternalDoc.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Logger from &apos;color-logger&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import log from &apos;npmlog&apos;;
 import AbstractDoc from &apos;./AbstractDoc.js&apos;;
 import ParamParser from &apos;../Parser/ParamParser.js&apos;;
-
-const logger = new Logger(&apos;ExternalDoc&apos;);
-
 /**
  * Doc Class from virtual comment node of external.
  */
@@ -110,14 +107,14 @@ export default class ExternalDoc extends AbstractDoc {
   _$name() {
     const value = this._findTagValue([&apos;@external&apos;]);
     if (!value) {
-      logger.w(&apos;can not resolve name.&apos;);
+      log.warn(&apos;can not resolve name.&apos;);
     }
 
     this._value.name = value;
 
     const tags = this._findAll([&apos;@external&apos;]);
     if (!tags) {
-      logger.w(&apos;can not resolve name.&apos;);
+      log.warn(&apos;can not resolve name.&apos;);
       return;
     }
 

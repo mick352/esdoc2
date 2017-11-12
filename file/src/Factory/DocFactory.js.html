@@ -78,7 +78,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/Factory/DocFactory.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Logger from &apos;color-logger&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import log from &apos;npmlog&apos;;
 import CommentParser from &apos;../Parser/CommentParser.js&apos;;
 import FileDoc from &apos;../Doc/FileDoc.js&apos;;
 import ClassDoc from &apos;../Doc/ClassDoc.js&apos;;
@@ -93,7 +93,6 @@ import ExternalDoc from &apos;../Doc/ExternalDoc.js&apos;;
 import ASTUtil from &apos;../Util/ASTUtil.js&apos;;
 
 const already = Symbol(&apos;already&apos;);
-const logger = new Logger(&apos;DocFactory&apos;);
 
 /**
  * Doc factory class.
@@ -128,7 +127,7 @@ export default class DocFactory {
     // file doc
     const doc = new FileDoc(ast, ast, pathResolver, []);
     this._results.push(doc.value);
-
+    log.verbose(&apos;add&apos;, doc.value);
     // ast does not child, so only comment.
     if (ast.program.body.length === 0 &amp;&amp; ast.program.innerComments) {
       const results = this._traverseComments(ast, null, ast.program.innerComments);
@@ -200,7 +199,7 @@ export default class DocFactory {
           break;
         }
         default:
-          logger.w(`unknown export declaration type. type = &quot;${exportNode.declaration.type}&quot;`);
+          log.warn(&apos;ast&apos;, `unknown export declaration type. type = &quot;${exportNode.declaration.type}&quot;`);
           break;
       }
 
@@ -551,7 +550,7 @@ export default class DocFactory {
     if (this._processedClassNodes.includes(classNode)) {
       return {type: &apos;Method&apos;, node: node};
     } else {
-      logger.w(&apos;this method is not in class&apos;, node);
+      log.warn(&apos;node&apos;, &apos;this method is not in class&apos;, node);
       return {type: null, node: null};
     }
   }
@@ -567,7 +566,7 @@ export default class DocFactory {
     if (this._processedClassNodes.includes(classNode)) {
       return {type: &apos;ClassProperty&apos;, node: node};
     } else {
-      logger.w(&apos;this class property is not in class&apos;, node);
+      log.warn(&apos;node&apos;, &apos;this class property is not in class&apos;, node);
       return {type: null, node: null};
     }
   }
@@ -641,7 +640,7 @@ export default class DocFactory {
         if (node.left.type === &apos;MemberExpression&apos; &amp;&amp; node.left.object.type === &apos;ThisExpression&apos;) {
           const classNode = this._findUp(node, [&apos;ClassExpression&apos;, &apos;ClassDeclaration&apos;]);
           if (!this._processedClassNodes.includes(classNode)) {
-            logger.w(&apos;this member is not in class.&apos;, this._pathResolver.filePath, node);
+            log.warn(&apos;node&apos;, &apos;this member is not in class.&apos;, this._pathResolver.filePath, node);
             return {type: null, node: null};
           }
 

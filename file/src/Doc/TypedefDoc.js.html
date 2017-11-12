@@ -78,11 +78,9 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/Doc/TypedefDoc.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Logger from &apos;color-logger&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import log from &apos;npmlog&apos;;
 import AbstractDoc from &apos;./AbstractDoc.js&apos;;
 import ParamParser from &apos;../Parser/ParamParser.js&apos;;
-
-const logger = new Logger(&apos;TypedefDoc&apos;);
 
 /**
  * Doc class for virtual comment node of typedef.
@@ -112,7 +110,7 @@ export default class TypedefDoc extends AbstractDoc {
   _$name() {
     const tags = this._findAll([&apos;@typedef&apos;]);
     if (!tags) {
-      logger.w(&apos;can not resolve name.&apos;);
+      log.warn(&apos;can not resolve name.&apos;);
       return;
     }
 
@@ -150,6 +148,8 @@ export default class TypedefDoc extends AbstractDoc {
 
     const {typeText, paramName, paramDesc} = ParamParser.parseParamValue(value, true, true, false);
     const result = ParamParser.parseParam(typeText, paramName, paramDesc);
+
+    log.verbose(&apos;@typedef&apos;, result);
 
     Reflect.deleteProperty(result, &apos;description&apos;);
     Reflect.deleteProperty(result, &apos;nullable&apos;);
