@@ -128,7 +128,7 @@ module.exports = {
 
     /* Node.js and CommonJS */
     'callback-return': ['off'], // because often use callback without return.
-    'global-require': ['error'],
+    'global-require': ['off'],
     'handle-callback-err': ['error'],
     'no-mixed-requires': ['error'],
     'no-new-require': ['error'],

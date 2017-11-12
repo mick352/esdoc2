@@ -7,9 +7,8 @@ import NPMUtil from './Util/NPMUtil.js';
 import log from 'npmlog';
 
 log.heading = 'ESDoc2';
-
 log.info('using', 'node@%s', process.version);
-
+log.info('using', 'esdoc2@%s', NPMUtil.findPackage().version);
 /**
  * Command Line Interface for esdoc2.
  *
