@@ -100,7 +100,7 @@ module.exports = {
     'no-unused-labels': ['error'],
     'no-useless-call': ['error'],
     'no-useless-concat': ['error'],
-    'no-useless-escape': ['error'],
+    'no-useless-escape': ['off'],
     'no-void': ['error'],
     'no-warning-comments': ['warn'], // because `todo` and `fixme` are remain.
     'no-with': ['error'],

@@ -1,8 +1,6 @@
-import Logger from 'color-logger';
+import log from 'npmlog';
 import AbstractDoc from './AbstractDoc.js';
 import ParamParser from '../Parser/ParamParser.js';
-
-const logger = new Logger('TypedefDoc');
 
 /**
  * Doc class for virtual comment node of typedef.
@@ -32,7 +30,7 @@ export default class TypedefDoc extends AbstractDoc {
   _$name() {
     const tags = this._findAll(['@typedef']);
     if (!tags) {
-      logger.w('can not resolve name.');
+      log.warn('can not resolve name.');
       return;
     }
 
@@ -70,6 +68,8 @@ export default class TypedefDoc extends AbstractDoc {
 
     const {typeText, paramName, paramDesc} = ParamParser.parseParamValue(value, true, true, false);
     const result = ParamParser.parseParam(typeText, paramName, paramDesc);
+
+    log.verbose('@typedef', result);
 
     Reflect.deleteProperty(result, 'description');
     Reflect.deleteProperty(result, 'nullable');

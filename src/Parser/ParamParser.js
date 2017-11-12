@@ -4,7 +4,6 @@ import assert from 'assert';
  * Param Type Parser class.
  */
 export default class ParamParser {
-
   /**
    * parse param value.
    * @param {string} value - param value.

@@ -1,4 +1,4 @@
-import Logger from 'color-logger';
+import log from 'npmlog';
 import CommentParser from '../Parser/CommentParser.js';
 import FileDoc from '../Doc/FileDoc.js';
 import ClassDoc from '../Doc/ClassDoc.js';
@@ -13,7 +13,6 @@ import ExternalDoc from '../Doc/ExternalDoc.js';
 import ASTUtil from '../Util/ASTUtil.js';
 
 const already = Symbol('already');
-const logger = new Logger('DocFactory');
 
 /**
  * Doc factory class.
@@ -48,7 +47,7 @@ export default class DocFactory {
     // file doc
     const doc = new FileDoc(ast, ast, pathResolver, []);
     this._results.push(doc.value);
-
+    log.verbose('add', doc.value);
     // ast does not child, so only comment.
     if (ast.program.body.length === 0 && ast.program.innerComments) {
       const results = this._traverseComments(ast, null, ast.program.innerComments);
@@ -120,7 +119,7 @@ export default class DocFactory {
           break;
         }
         default:
-          logger.w(`unknown export declaration type. type = "${exportNode.declaration.type}"`);
+          log.warn('ast', `unknown export declaration type. type = "${exportNode.declaration.type}"`);
           break;
       }
 
@@ -471,7 +470,7 @@ export default class DocFactory {
     if (this._processedClassNodes.includes(classNode)) {
       return {type: 'Method', node: node};
     } else {
-      logger.w('this method is not in class', node);
+      log.warn('node', 'this method is not in class', node);
       return {type: null, node: null};
     }
   }
@@ -487,7 +486,7 @@ export default class DocFactory {
     if (this._processedClassNodes.includes(classNode)) {
       return {type: 'ClassProperty', node: node};
     } else {
-      logger.w('this class property is not in class', node);
+      log.warn('node', 'this class property is not in class', node);
       return {type: null, node: null};
     }
   }
@@ -561,7 +560,7 @@ export default class DocFactory {
         if (node.left.type === 'MemberExpression' && node.left.object.type === 'ThisExpression') {
           const classNode = this._findUp(node, ['ClassExpression', 'ClassDeclaration']);
           if (!this._processedClassNodes.includes(classNode)) {
-            logger.w('this member is not in class.', this._pathResolver.filePath, node);
+            log.warn('node', 'this member is not in class.', this._pathResolver.filePath, node);
             return {type: null, node: null};
           }
 
