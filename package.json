@@ -12,7 +12,7 @@
     "url": "https://github.com/esdoc2/esdoc2"
   },
   "engines": {
-    "node": ">= 8",
+    "node": ">= 6",
     "yarn": ">= 1"
   },
   "scripts": {
