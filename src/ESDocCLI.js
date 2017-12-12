@@ -34,6 +34,10 @@ export default class ESDocCLI {
       this._showVersion();
       process.exit(0);
     }
+
+    process.on('unhandledRejection', (reason, p) => {
+      console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
+    });
   }
 
   /**

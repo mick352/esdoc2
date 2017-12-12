@@ -1,7 +1,8 @@
 import assert from 'assert';
 
 describe('test/plugin/MyPlugin2:', ()=>{
-  it('calls handlers', async ()=>{
+  it('calls handlers', () => {
+    return new Promise((resolve, reject) => {
       const callInfo = require('./MyPlugin2').callInfo;
       assert.deepEqual(callInfo.handlerNames, {
         onStart: true,
@@ -14,5 +15,8 @@ describe('test/plugin/MyPlugin2:', ()=>{
         onHandleContent: true,
         onComplete: true
       });
+
+      resolve();
+    });
   });
 });

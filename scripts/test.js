@@ -13,6 +13,10 @@ if (process.env.CI) {
   mocha.reporter('mocha-junit-reporter')
 }
 
+process.on('unhandledRejection', (reason, p) => {
+  console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
+});
+
 init.then(() => {
   const tests = process.argv.slice(2);
   tests.forEach((test) => {
