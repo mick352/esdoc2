@@ -3637,13 +3637,13 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/test/integration-test/plugin/MyPlugin1.test.js.html#lineNumber22",
+    "test-file/test/integration-test/plugin/MyPlugin1.test.js.html#lineNumber26",
     "test/plugin/MyPlugin1: modified input",
     "test"
   ],
   [
     "",
-    "test-file/test/integration-test/plugin/MyPlugin1.test.js.html#lineNumber27",
+    "test-file/test/integration-test/plugin/MyPlugin1.test.js.html#lineNumber31",
     "test/plugin/MyPlugin1: output",
     "test"
   ],

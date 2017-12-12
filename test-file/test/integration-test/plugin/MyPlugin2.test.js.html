@@ -81,7 +81,8 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import assert from &apos;assert&apos;;
 
 describe(&apos;test/plugin/MyPlugin2:&apos;, ()=&gt;{
-  it(&apos;calls handlers&apos;, async ()=&gt;{
+  it(&apos;calls handlers&apos;, () =&gt; {
+    return new Promise((resolve, reject) =&gt; {
       const callInfo = require(&apos;./MyPlugin2&apos;).callInfo;
       assert.deepEqual(callInfo.handlerNames, {
         onStart: true,
@@ -94,6 +95,9 @@ describe(&apos;test/plugin/MyPlugin2:&apos;, ()=&gt;{
         onHandleContent: true,
         onComplete: true
       });
+
+      resolve();
+    });
   });
 });
 </code></pre>

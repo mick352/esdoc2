@@ -83,7 +83,8 @@ import fs from &apos;fs&apos;;
 import {find} from &apos;../util&apos;;
 
 describe(&apos;test/plugin/MyPlugin1:&apos;, ()=&gt;{
-  it(&apos;calls handlers&apos;, async ()=&gt;{
+  it(&apos;calls handlers&apos;, () =&gt; {
+    return new Promise((resolve, reject) =&gt; {
       const callInfo = require(&apos;./MyPlugin1&apos;).callInfo;
       assert.deepEqual(callInfo.handlerNames, {
         onStart: true,
@@ -96,7 +97,10 @@ describe(&apos;test/plugin/MyPlugin1:&apos;, ()=&gt;{
         onHandleContent: true,
         onComplete: true
       });
-      assert.equal(callInfo.usedParser, true);  
+      assert.equal(callInfo.usedParser, true);
+
+      resolve();
+    });
   });
 
   it(&apos;modified input&apos;, ()=&gt;{

@@ -3157,7 +3157,7 @@
     "__docId__": 187,
     "kind": "file",
     "name": "src/ESDocCLI.js",
-    "content": "#!/usr/bin/env node\nimport fs from 'fs';\nimport path from 'path';\nimport minimist from 'minimist';\nimport esdoc2 from './ESDoc.js';\nimport NPMUtil from './Util/NPMUtil.js';\nimport log from 'npmlog';\n\nlog.heading = 'ESDoc2';\nlog.info('using', 'node@%s', process.version);\nlog.info('using', 'esdoc2@%s', NPMUtil.findPackage().version);\n/**\n * Command Line Interface for esdoc2.\n *\n * @example\n * let cli = new ESDocCLI(process.argv);\n * cli.exec();\n */\nexport default class ESDocCLI {\n  /**\n   * Create instance.\n   * @param {Object} argv - this is node.js argv(``process.argv``)\n   */\n  constructor(argv) {\n    /** @type {ESDocCLIArgv} */\n    this._argv = minimist(argv.slice(2));\n\n    if (this._argv.h || this._argv.help) {\n      this._showHelp();\n      process.exit(0);\n    }\n\n    if (this._argv.v || this._argv.version) {\n      this._showVersion();\n      process.exit(0);\n    }\n  }\n\n  /**\n   * execute to generate document.\n   */\n  exec() {\n    let config;\n\n    const configPath = this._findConfigFilePath();\n    log.info('config', configPath);\n    if (configPath) {\n      config = this._createConfigFromJSONFile(configPath);\n    } else {\n      config = this._createConfigFromPackageJSON();\n    }\n\n    if (config) {\n      esdoc2.generate(config);\n    } else {\n      this._showHelp();\n      process.exit(1);\n    }\n  }\n\n  /**\n   * show help of esdoc2\n   * @private\n   */\n  _showHelp() {\n    console.log('Usage: esdoc [-c esdoc.json]');\n    console.log('');\n    console.log('Options:');\n    console.log('  -c', 'specify config file');\n    console.log('  -h', 'output usage information');\n    console.log('  -v', 'output the version number');\n    console.log('');\n    console.log('esdoc2 finds configuration by the order:');\n    console.log('  1. `-c your-esdoc.json`');\n    console.log('  2. `.esdoc.json` in current directory');\n    console.log('  3. `.esdoc.js` in current directory');\n    console.log('  4. `esdoc` property in package.json');\n  }\n\n  /**\n   * show version of esdoc2\n   * @private\n   */\n  _showVersion() {\n    const packageObj = NPMUtil.findPackage();\n    if (packageObj) {\n      console.log(packageObj.version);\n    } else {\n      console.log('0.0.0');\n    }\n  }\n\n  /**\n   * find esdoc2 config file.\n   * @returns {string|null} config file path.\n   * @private\n   */\n  _findConfigFilePath() {\n    if (this._argv.c) {\n      return this._argv.c;\n    }\n\n    try {\n      const filePath = path.resolve('./.esdoc.json');\n      fs.readFileSync(filePath);\n      return filePath;\n    } catch (e) {\n      // ignore\n    }\n\n    try {\n      const filePath = path.resolve('./.esdoc.js');\n      fs.readFileSync(filePath);\n      return filePath;\n    } catch (e) {\n      // ignore\n    }\n\n    return null;\n  }\n\n  /**\n   * create config object from config file.\n   * @param {string} configFilePath - config file path.\n   * @return {ESDocConfig} config object.\n   * @private\n   */\n  _createConfigFromJSONFile(configFilePath) {\n    configFilePath = path.resolve(configFilePath);\n    const ext = path.extname(configFilePath);\n    if (ext === '.js') {\n      /* eslint-disable global-require */\n      return require(configFilePath);\n    } else {\n      const configJSON = fs.readFileSync(configFilePath, {encode: 'utf8'});\n      const config = JSON.parse(configJSON);\n      return config;\n    }\n  }\n\n  /**\n   * create config object from package.json.\n   * @return {ESDocConfig|null} config object.\n   * @private\n   */\n  _createConfigFromPackageJSON() {\n    try {\n      const filePath = path.resolve('./package.json');\n      const packageJSON = fs.readFileSync(filePath, 'utf8').toString();\n      const packageObj = JSON.parse(packageJSON);\n      return packageObj.esdoc2;\n    } catch (e) {\n      // ignore\n    }\n\n    return null;\n  }\n}\n\n// if this file is directory executed, work as CLI.\nconst executedFilePath = fs.realpathSync(process.argv[1]);\nif (executedFilePath === __filename) {\n  const cli = new ESDocCLI(process.argv);\n  cli.exec();\n}\n",
+    "content": "#!/usr/bin/env node\nimport fs from 'fs';\nimport path from 'path';\nimport minimist from 'minimist';\nimport esdoc2 from './ESDoc.js';\nimport NPMUtil from './Util/NPMUtil.js';\nimport log from 'npmlog';\n\nlog.heading = 'ESDoc2';\nlog.info('using', 'node@%s', process.version);\nlog.info('using', 'esdoc2@%s', NPMUtil.findPackage().version);\n/**\n * Command Line Interface for esdoc2.\n *\n * @example\n * let cli = new ESDocCLI(process.argv);\n * cli.exec();\n */\nexport default class ESDocCLI {\n  /**\n   * Create instance.\n   * @param {Object} argv - this is node.js argv(``process.argv``)\n   */\n  constructor(argv) {\n    /** @type {ESDocCLIArgv} */\n    this._argv = minimist(argv.slice(2));\n\n    if (this._argv.h || this._argv.help) {\n      this._showHelp();\n      process.exit(0);\n    }\n\n    if (this._argv.v || this._argv.version) {\n      this._showVersion();\n      process.exit(0);\n    }\n\n    process.on('unhandledRejection', (reason, p) => {\n      console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);\n    });\n  }\n\n  /**\n   * execute to generate document.\n   */\n  exec() {\n    let config;\n\n    const configPath = this._findConfigFilePath();\n    log.info('config', configPath);\n    if (configPath) {\n      config = this._createConfigFromJSONFile(configPath);\n    } else {\n      config = this._createConfigFromPackageJSON();\n    }\n\n    if (config) {\n      esdoc2.generate(config);\n    } else {\n      this._showHelp();\n      process.exit(1);\n    }\n  }\n\n  /**\n   * show help of esdoc2\n   * @private\n   */\n  _showHelp() {\n    console.log('Usage: esdoc [-c esdoc.json]');\n    console.log('');\n    console.log('Options:');\n    console.log('  -c', 'specify config file');\n    console.log('  -h', 'output usage information');\n    console.log('  -v', 'output the version number');\n    console.log('');\n    console.log('esdoc2 finds configuration by the order:');\n    console.log('  1. `-c your-esdoc.json`');\n    console.log('  2. `.esdoc.json` in current directory');\n    console.log('  3. `.esdoc.js` in current directory');\n    console.log('  4. `esdoc` property in package.json');\n  }\n\n  /**\n   * show version of esdoc2\n   * @private\n   */\n  _showVersion() {\n    const packageObj = NPMUtil.findPackage();\n    if (packageObj) {\n      console.log(packageObj.version);\n    } else {\n      console.log('0.0.0');\n    }\n  }\n\n  /**\n   * find esdoc2 config file.\n   * @returns {string|null} config file path.\n   * @private\n   */\n  _findConfigFilePath() {\n    if (this._argv.c) {\n      return this._argv.c;\n    }\n\n    try {\n      const filePath = path.resolve('./.esdoc.json');\n      fs.readFileSync(filePath);\n      return filePath;\n    } catch (e) {\n      // ignore\n    }\n\n    try {\n      const filePath = path.resolve('./.esdoc.js');\n      fs.readFileSync(filePath);\n      return filePath;\n    } catch (e) {\n      // ignore\n    }\n\n    return null;\n  }\n\n  /**\n   * create config object from config file.\n   * @param {string} configFilePath - config file path.\n   * @return {ESDocConfig} config object.\n   * @private\n   */\n  _createConfigFromJSONFile(configFilePath) {\n    configFilePath = path.resolve(configFilePath);\n    const ext = path.extname(configFilePath);\n    if (ext === '.js') {\n      /* eslint-disable global-require */\n      return require(configFilePath);\n    } else {\n      const configJSON = fs.readFileSync(configFilePath, {encode: 'utf8'});\n      const config = JSON.parse(configJSON);\n      return config;\n    }\n  }\n\n  /**\n   * create config object from package.json.\n   * @return {ESDocConfig|null} config object.\n   * @private\n   */\n  _createConfigFromPackageJSON() {\n    try {\n      const filePath = path.resolve('./package.json');\n      const packageJSON = fs.readFileSync(filePath, 'utf8').toString();\n      const packageObj = JSON.parse(packageJSON);\n      return packageObj.esdoc2;\n    } catch (e) {\n      // ignore\n    }\n\n    return null;\n  }\n}\n\n// if this file is directory executed, work as CLI.\nconst executedFilePath = fs.realpathSync(process.argv[1]);\nif (executedFilePath === __filename) {\n  const cli = new ESDocCLI(process.argv);\n  cli.exec();\n}\n",
     "static": true,
     "longname": "/home/ubuntu/esdoc2/src/ESDocCLI.js",
     "access": "public",
@@ -3237,7 +3237,7 @@
     "longname": "src/ESDocCLI.js~ESDocCLI#exec",
     "access": "public",
     "description": "execute to generate document.",
-    "lineNumber": 42,
+    "lineNumber": 46,
     "params": [],
     "return": null
   },
@@ -3252,7 +3252,7 @@
     "longname": "src/ESDocCLI.js~ESDocCLI#_showHelp",
     "access": "private",
     "description": "show help of esdoc2",
-    "lineNumber": 65,
+    "lineNumber": 69,
     "params": [],
     "return": null
   },
@@ -3267,7 +3267,7 @@
     "longname": "src/ESDocCLI.js~ESDocCLI#_showVersion",
     "access": "private",
     "description": "show version of esdoc2",
-    "lineNumber": 84,
+    "lineNumber": 88,
     "params": [],
     "return": null
   },
@@ -3282,7 +3282,7 @@
     "longname": "src/ESDocCLI.js~ESDocCLI#_findConfigFilePath",
     "access": "private",
     "description": "find esdoc2 config file.",
-    "lineNumber": 98,
+    "lineNumber": 102,
     "unknown": [
       {
         "tagName": "@returns",
@@ -3311,7 +3311,7 @@
     "longname": "src/ESDocCLI.js~ESDocCLI#_createConfigFromJSONFile",
     "access": "private",
     "description": "create config object from config file.",
-    "lineNumber": 128,
+    "lineNumber": 132,
     "params": [
       {
         "nullable": null,
@@ -3344,7 +3344,7 @@
     "longname": "src/ESDocCLI.js~ESDocCLI#_createConfigFromPackageJSON",
     "access": "private",
     "description": "create config object from package.json.",
-    "lineNumber": 146,
+    "lineNumber": 150,
     "return": {
       "nullable": null,
       "types": [
@@ -3368,7 +3368,7 @@
     "importPath": "esdoc2/out/src/ESDocCLI.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 161,
+    "lineNumber": 165,
     "undocument": true,
     "type": {
       "types": [
@@ -7773,7 +7773,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"esdoc2\",\n  \"version\": \"2.0.0\",\n  \"description\": \"Better Documentation Generator For JavaScript\",\n  \"author\": {\n    \"name\": \"Matt McFarland\",\n    \"url\": \"http://esdoc2.org\"\n  },\n  \"license\": \"MIT\",\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"https://github.com/esdoc2/esdoc2\"\n  },\n  \"engines\": {\n    \"node\": \">= 8\",\n    \"yarn\": \">= 1\"\n  },\n  \"scripts\": {\n    \"build\": \"yarn build:package && yarn build:docs\",\n    \"build:package\": \"scripts/build-package.js\",\n    \"build:docs\": \"scripts/build-docs.js\",\n    \"test\": \"scripts/test.js $(find test/ -regex '.*.test.js$')\",\n    \"test:ci\": \"nyc scripts/test.js $(find test/ -regex '.*.test.js$')\",\n    \"lint\": \"scripts/lint.js\",\n    \"lint:es\": \"eslint ./src ./test/src\",\n    \"lint:es:ci\": \"eslint ./src ./test/src --format junit --output-file ~/reports/eslint.xml\",\n    \"lint:json\": \"jsonlint ./package.json\",\n    \"lint:yaml\": \"js-yaml ./circle.yml\",\n    \"deploy-docs\": \"scripts/deploy-ghpages.sh\",\n    \"prepublishOnly\": \"yarn build\"\n  },\n  \"precommit\": [\n    \"lint\",\n    \"test\"\n  ],\n  \"dependencies\": {\n    \"babel-generator\": \"6.26.0\",\n    \"babel-traverse\": \"6.26.0\",\n    \"babylon\": \"6.18.0\",\n    \"big-json\": \"^1.2.0\",\n    \"cheerio\": \"1.0.0-rc.2\",\n    \"color-logger\": \"0.0.6\",\n    \"escape-html\": \"1.0.3\",\n    \"fs-extra\": \"4.0.2\",\n    \"ice-cap\": \"0.0.4\",\n    \"marked\": \"0.3.6\",\n    \"minimist\": \"1.2.0\",\n    \"taffydb\": \"2.7.3\"\n  },\n  \"devDependencies\": {\n    \"babel-cli\": \"6.26.0\",\n    \"babel-plugin-istanbul\": \"4.1.5\",\n    \"babel-plugin-transform-es2015-modules-commonjs\": \"6.26.0\",\n    \"babel-preset-es2015\": \"^6.24.1\",\n    \"babel-register\": \"6.26.0\",\n    \"codecov\": \"3.0.0\",\n    \"debug\": \"^3.1.0\",\n    \"esdoc2-accessor-plugin\": \"2.0.0\",\n    \"esdoc2-external-ecmascript-plugin\": \"2.0.0\",\n    \"esdoc2-importpath-plugin\": \"2.0.0\",\n    \"esdoc2-standard-plugin\": \"2.0.0\",\n    \"esdoc2-undocumented-identifier-plugin\": \"2.0.0\",\n    \"eslint\": \"4.11.0\",\n    \"js-yaml\": \"^3.10.0\",\n    \"jsonlint\": \"^1.6.2\",\n    \"mocha\": \"4.0.1\",\n    \"mocha-junit-reporter\": \"^1.15.0\",\n    \"node-static\": \"^0.7.10\",\n    \"npmlog\": \"^4.1.2\",\n    \"nyc\": \"11.3.0\",\n    \"pre-commit\": \"^1.2.2\"\n  },\n  \"keywords\": [\n    \"jsdoc\",\n    \"esdoc2\",\n    \"api\",\n    \"document\",\n    \"documentation\",\n    \"ES6\"\n  ],\n  \"files\": [\n    \"out/src\",\n    \"manual\",\n    \"README.md\"\n  ],\n  \"directories\": {\n    \"doc\": \"manual\",\n    \"lib\": \"src\"\n  },\n  \"main\": \"out/src/esdoc2.js\",\n  \"bin\": {\n    \"esdoc2\": \"out/src/ESDocCLI.js\"\n  }\n}\n",
+    "content": "{\n  \"name\": \"esdoc2\",\n  \"version\": \"2.0.0\",\n  \"description\": \"Better Documentation Generator For JavaScript\",\n  \"author\": {\n    \"name\": \"Matt McFarland\",\n    \"url\": \"http://esdoc2.org\"\n  },\n  \"license\": \"MIT\",\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"https://github.com/esdoc2/esdoc2\"\n  },\n  \"engines\": {\n    \"node\": \">= 6\",\n    \"yarn\": \">= 1\"\n  },\n  \"scripts\": {\n    \"build\": \"yarn build:package && yarn build:docs\",\n    \"build:package\": \"scripts/build-package.js\",\n    \"build:docs\": \"scripts/build-docs.js\",\n    \"test\": \"scripts/test.js $(find test/ -regex '.*.test.js$')\",\n    \"test:ci\": \"nyc scripts/test.js $(find test/ -regex '.*.test.js$')\",\n    \"lint\": \"scripts/lint.js\",\n    \"lint:es\": \"eslint ./src ./test/src\",\n    \"lint:es:ci\": \"eslint ./src ./test/src --format junit --output-file ~/reports/eslint.xml\",\n    \"lint:json\": \"jsonlint ./package.json\",\n    \"lint:yaml\": \"js-yaml ./circle.yml\",\n    \"deploy-docs\": \"scripts/deploy-ghpages.sh\",\n    \"prepublishOnly\": \"yarn build\"\n  },\n  \"precommit\": [\n    \"lint\",\n    \"test\"\n  ],\n  \"dependencies\": {\n    \"babel-generator\": \"6.26.0\",\n    \"babel-traverse\": \"6.26.0\",\n    \"babylon\": \"6.18.0\",\n    \"big-json\": \"^1.2.0\",\n    \"cheerio\": \"1.0.0-rc.2\",\n    \"color-logger\": \"0.0.6\",\n    \"escape-html\": \"1.0.3\",\n    \"fs-extra\": \"4.0.2\",\n    \"ice-cap\": \"0.0.4\",\n    \"marked\": \"0.3.6\",\n    \"minimist\": \"1.2.0\",\n    \"taffydb\": \"2.7.3\"\n  },\n  \"devDependencies\": {\n    \"babel-cli\": \"6.26.0\",\n    \"babel-plugin-istanbul\": \"4.1.5\",\n    \"babel-plugin-transform-es2015-modules-commonjs\": \"6.26.0\",\n    \"babel-preset-es2015\": \"^6.24.1\",\n    \"babel-register\": \"6.26.0\",\n    \"codecov\": \"3.0.0\",\n    \"debug\": \"^3.1.0\",\n    \"esdoc2-accessor-plugin\": \"2.0.0\",\n    \"esdoc2-external-ecmascript-plugin\": \"2.0.0\",\n    \"esdoc2-importpath-plugin\": \"2.0.0\",\n    \"esdoc2-standard-plugin\": \"2.0.0\",\n    \"esdoc2-undocumented-identifier-plugin\": \"2.0.0\",\n    \"eslint\": \"4.11.0\",\n    \"js-yaml\": \"^3.10.0\",\n    \"jsonlint\": \"^1.6.2\",\n    \"mocha\": \"4.0.1\",\n    \"mocha-junit-reporter\": \"^1.15.0\",\n    \"node-static\": \"^0.7.10\",\n    \"npmlog\": \"^4.1.2\",\n    \"nyc\": \"11.3.0\",\n    \"pre-commit\": \"^1.2.2\"\n  },\n  \"keywords\": [\n    \"jsdoc\",\n    \"esdoc2\",\n    \"api\",\n    \"document\",\n    \"documentation\",\n    \"ES6\"\n  ],\n  \"files\": [\n    \"out/src\",\n    \"manual\",\n    \"README.md\"\n  ],\n  \"directories\": {\n    \"doc\": \"manual\",\n    \"lib\": \"src\"\n  },\n  \"main\": \"out/src/esdoc2.js\",\n  \"bin\": {\n    \"esdoc2\": \"out/src/ESDocCLI.js\"\n  }\n}\n",
     "longname": "/home/ubuntu/esdoc2/package.json",
     "name": "package.json",
     "static": true,
@@ -7937,7 +7937,7 @@
     "__docId__": 331,
     "kind": "testFile",
     "name": "test/integration-test/plugin/MyPlugin1.test.js",
-    "content": "import assert from 'assert';\nimport fs from 'fs';\nimport {find} from '../util';\n\ndescribe('test/plugin/MyPlugin1:', ()=>{\n  it('calls handlers', async ()=>{\n      const callInfo = require('./MyPlugin1').callInfo;\n      assert.deepEqual(callInfo.handlerNames, {\n        onStart: true,\n        onHandleConfig: true,\n        onHandleCode: true,\n        onHandleCodeParser: true,\n        onHandleAST: true,\n        onHandleDocs: true,\n        onPublish: true,\n        onHandleContent: true,\n        onComplete: true\n      });\n      assert.equal(callInfo.usedParser, true);  \n  });\n\n  it('modified input', ()=>{\n    const doc = find('longname', /EmptyForPlugin_Modified1_Modified2$/);\n    assert.equal(doc.kind, 'class');\n  });\n\n  it('output', ()=>{\n    const content = fs.readFileSync('./test/integration-test/out/index.md').toString();\n    assert(content.includes('EmptyForPlugin_Modified1_Modified2'));\n    assert(content.includes('made by MyPlugin1_Modified'));\n  });\n});\n",
+    "content": "import assert from 'assert';\nimport fs from 'fs';\nimport {find} from '../util';\n\ndescribe('test/plugin/MyPlugin1:', ()=>{\n  it('calls handlers', () => {\n    return new Promise((resolve, reject) => {\n      const callInfo = require('./MyPlugin1').callInfo;\n      assert.deepEqual(callInfo.handlerNames, {\n        onStart: true,\n        onHandleConfig: true,\n        onHandleCode: true,\n        onHandleCodeParser: true,\n        onHandleAST: true,\n        onHandleDocs: true,\n        onPublish: true,\n        onHandleContent: true,\n        onComplete: true\n      });\n      assert.equal(callInfo.usedParser, true);\n\n      resolve();\n    });\n  });\n\n  it('modified input', ()=>{\n    const doc = find('longname', /EmptyForPlugin_Modified1_Modified2$/);\n    assert.equal(doc.kind, 'class');\n  });\n\n  it('output', ()=>{\n    const content = fs.readFileSync('./test/integration-test/out/index.md').toString();\n    assert(content.includes('EmptyForPlugin_Modified1_Modified2'));\n    assert(content.includes('made by MyPlugin1_Modified'));\n  });\n});\n",
     "static": true,
     "longname": "/home/ubuntu/esdoc2/test/integration-test/plugin/MyPlugin1.test.js",
     "access": null,
@@ -7981,7 +7981,7 @@
     "longname": "test/integration-test/plugin/MyPlugin1.test.js~describe4.it6",
     "access": null,
     "description": "modified input",
-    "lineNumber": 22
+    "lineNumber": 26
   },
   {
     "__docId__": 335,
@@ -7994,13 +7994,13 @@
     "longname": "test/integration-test/plugin/MyPlugin1.test.js~describe4.it7",
     "access": null,
     "description": "output",
-    "lineNumber": 27
+    "lineNumber": 31
   },
   {
     "__docId__": 336,
     "kind": "testFile",
     "name": "test/integration-test/plugin/MyPlugin2.test.js",
-    "content": "import assert from 'assert';\n\ndescribe('test/plugin/MyPlugin2:', ()=>{\n  it('calls handlers', async ()=>{\n      const callInfo = require('./MyPlugin2').callInfo;\n      assert.deepEqual(callInfo.handlerNames, {\n        onStart: true,\n        onHandleConfig: true,\n        onHandleCode: true,\n        onHandleCodeParser: true,\n        onHandleAST: true,\n        onHandleDocs: true,\n        onPublish: true,\n        onHandleContent: true,\n        onComplete: true\n      });\n  });\n});\n",
+    "content": "import assert from 'assert';\n\ndescribe('test/plugin/MyPlugin2:', ()=>{\n  it('calls handlers', () => {\n    return new Promise((resolve, reject) => {\n      const callInfo = require('./MyPlugin2').callInfo;\n      assert.deepEqual(callInfo.handlerNames, {\n        onStart: true,\n        onHandleConfig: true,\n        onHandleCode: true,\n        onHandleCodeParser: true,\n        onHandleAST: true,\n        onHandleDocs: true,\n        onPublish: true,\n        onHandleContent: true,\n        onComplete: true\n      });\n\n      resolve();\n    });\n  });\n});\n",
     "static": true,
     "longname": "/home/ubuntu/esdoc2/test/integration-test/plugin/MyPlugin2.test.js",
     "access": null,
