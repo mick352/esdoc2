@@ -3,7 +3,8 @@ import fs from 'fs';
 import {find} from '../util';
 
 describe('test/plugin/MyPlugin1:', ()=>{
-  it('calls handlers', async ()=>{
+  it('calls handlers', () => {
+    return new Promise((resolve, reject) => {
       const callInfo = require('./MyPlugin1').callInfo;
       assert.deepEqual(callInfo.handlerNames, {
         onStart: true,
@@ -16,7 +17,10 @@ describe('test/plugin/MyPlugin1:', ()=>{
         onHandleContent: true,
         onComplete: true
       });
-      assert.equal(callInfo.usedParser, true);  
+      assert.equal(callInfo.usedParser, true);
+
+      resolve();
+    });
   });
 
   it('modified input', ()=>{
