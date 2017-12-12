@@ -14,7 +14,7 @@ if (process.env.CI) {
 }
 
 process.on('unhandledRejection', (reason, p) => {
-  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+  console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
 });
 
 init.then(() => {
