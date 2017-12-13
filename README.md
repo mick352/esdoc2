@@ -30,7 +30,7 @@ echo '{
 }' > .esdoc.json
 
 # Run esdoc2.
-./node_modules/.bin/esdoc
+./node_modules/.bin/esdoc2
 
 # View documentation
 open ./docs/index.html
