@@ -8,7 +8,7 @@ esdoc2 provides a lot of features.
 - [ES Module](#es-module)
 - [Plugin Architecture](#plugin-architecture)
 
-**Standard Features (via [esdoc2-standard-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-standard-plugin))**
+**Standard Features (via [esdoc2-standard-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-standard-plugin))**
 - [Publish HTML]()
 - [Documentation Coverage](#documentation-coverage)
 - [Documentation Lint](#documentation-lint)
@@ -16,17 +16,17 @@ esdoc2 provides a lot of features.
 - [Integration Manual](#integration-manual)
 - [Search Documentation](#search-documentation)
 - [Type Inference](#type-inference)
-- [and more](https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-standard-plugin)
+- [and more](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-standard-plugin)
 
 **Other Features (via [various plugins](https://github.com/esdoc2/esdoc2-plugins))**
-- [Inject Style](https://github.com/esdoc2/esdoc2-plugins/blob/master/esdoc2-inject-style-plugin)
-- [Inject Script](https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-inject-script-plugin)
-- [ECMAScript Proposal](https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-ecmascript-proposal-plugin)
-- [Flow](https://github.com/esdoc2/esdoc2-plugins/blob/master/esdoc2-flow-type-plugin) [PoC]
-- [TypeScript](https://github.com/esdoc2/esdoc2-plugins/blob/master/esdoc2-typescript-plugin) [PoC]
-- [JSX](https://github.com/esdoc2/esdoc2-plugins/blob/master/esdoc2-jsx-plugin)
-- [React](https://github.com/esdoc2/esdoc2-plugins/blob/master/esdoc2-react-plugin) [PoC]
-- [Publish Markdown](https://github.com/esdoc2/esdoc2-plugins/blob/master/esdoc2-publish-markdown-plugin) [PoC]
+- [Inject Style](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-inject-style-plugin)
+- [Inject Script](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-inject-script-plugin)
+- [ECMAScript Proposal](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-ecmascript-proposal-plugin)
+- [Flow](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-flow-type-plugin) [PoC]
+- [TypeScript](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-typescript-plugin) [PoC]
+- [JSX](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-jsx-plugin)
+- [React](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-react-plugin) [PoC]
+- [Publish Markdown](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-publish-markdown-plugin) [PoC]
 - [and more](https://github.com/esdoc2/esdoc2-plugins)
 
 ## Doc Comment and Tag
@@ -79,14 +79,14 @@ This is useful because you not need to see export style in source code.
 
 <img src="./asset/image/feature/module1.png" class="screen-shot" width="500px">
 
-And you may as well as use [esdoc2-importpath-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-importpath-plugin) to transform path.
+And you may as well as use [esdoc2-importpath-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-importpath-plugin) to transform path.
 
 Note: esdoc2 doesn't support commonjs.
 
 ## Plugin Architecture
 esdoc2 adopts plugin architecture. So, almost all features are provided as plugins.
 
-Especially [esdoc2-standard-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-standard-plugin) is a packaging plugin with major plugins.<br/>
+Especially [esdoc2-standard-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-standard-plugin) is a packaging plugin with major plugins.<br/>
 Normally we recommend using this plugin. There are various plugins in [esdoc2/esdoc2-plugins](https://github.com/esdoc2/esdoc2-plugins).
 
 You can easily make plugins, and there are many [third party plugins](https://www.npmjs.com/search?q=esdoc2%20plugin&page=1&ranking=optimal).<br/>

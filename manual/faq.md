@@ -38,7 +38,7 @@ esdoc2 supports Node.js(v6 or later)
 esdoc2 displays the import path of class/function into the document.<br/>
 However, the import path may be different from real import path because usually ES modules is transpiled to use it.
 
-So, [esdoc2 Import Path Plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-importpath-plugin) converts import path to real import path.
+So, [esdoc2 Import Path Plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-importpath-plugin) converts import path to real import path.
 
 ## Who's Using esdoc2
 - [RxJS](http://reactivex.io/rxjs/)
