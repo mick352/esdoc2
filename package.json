@@ -1,6 +1,6 @@
 {
   "name": "esdoc2",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Better Documentation Generator For JavaScript",
   "author": {
     "name": "Matt McFarland",
@@ -34,20 +34,20 @@
     "test"
   ],
   "dependencies": {
-    "babel-generator": "6.26.0",
-    "babel-traverse": "6.26.0",
-    "babylon": "6.18.0",
-    "big-json": "^1.2.0",
-    "cheerio": "1.0.0-rc.2",
-    "color-logger": "0.0.6",
-    "escape-html": "1.0.3",
-    "fs-extra": "4.0.2",
-    "ice-cap": "0.0.4",
-    "marked": "0.3.6",
-    "minimist": "1.2.0",
-    "mkdirp": "^0.5.1",
-    "npmlog": "^4.1.2",
-    "taffydb": "2.7.3"
+    "babel-generator": "~6.26.0",
+    "babel-traverse": "~6.26.0",
+    "babylon": "~6.18.0",
+    "big-json": "~1.2.0",
+    "cheerio": "~1.0.0-rc.2",
+    "color-logger": "~0.0.6",
+    "escape-html": "~1.0.3",
+    "fs-extra": "~4.0.2",
+    "ice-cap": "~0.0.4",
+    "marked": "~0.3.9",
+    "minimist": "~1.2.0",
+    "mkdirp": "~0.5.1",
+    "npmlog": "~4.1.2",
+    "taffydb": "~2.7.3"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
