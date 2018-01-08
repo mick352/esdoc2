@@ -189,7 +189,7 @@
 <li><a href="#es-module">ES Module</a></li>
 <li><a href="#plugin-architecture">Plugin Architecture</a></li>
 </ul>
-<p><strong>Standard Features (via <a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-standard-plugin">esdoc2-standard-plugin</a>)</strong></p>
+<p><strong>Standard Features (via <a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-standard-plugin">esdoc2-standard-plugin</a>)</strong></p>
 <ul>
 <li><a href="">Publish HTML</a></li>
 <li><a href="#documentation-coverage">Documentation Coverage</a></li>
@@ -198,18 +198,18 @@
 <li><a href="#integration-manual">Integration Manual</a></li>
 <li><a href="#search-documentation">Search Documentation</a></li>
 <li><a href="#type-inference">Type Inference</a></li>
-<li><a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-standard-plugin">and more</a></li>
+<li><a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-standard-plugin">and more</a></li>
 </ul>
 <p><strong>Other Features (via <a href="https://github.com/esdoc2/esdoc2-plugins">various plugins</a>)</strong></p>
 <ul>
-<li><a href="https://github.com/esdoc2/esdoc2-plugins/blob/master/esdoc2-inject-style-plugin">Inject Style</a></li>
-<li><a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-inject-script-plugin">Inject Script</a></li>
-<li><a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-ecmascript-proposal-plugin">ECMAScript Proposal</a></li>
-<li><a href="https://github.com/esdoc2/esdoc2-plugins/blob/master/esdoc2-flow-type-plugin">Flow</a> [PoC]</li>
-<li><a href="https://github.com/esdoc2/esdoc2-plugins/blob/master/esdoc2-typescript-plugin">TypeScript</a> [PoC]</li>
-<li><a href="https://github.com/esdoc2/esdoc2-plugins/blob/master/esdoc2-jsx-plugin">JSX</a></li>
-<li><a href="https://github.com/esdoc2/esdoc2-plugins/blob/master/esdoc2-react-plugin">React</a> [PoC]</li>
-<li><a href="https://github.com/esdoc2/esdoc2-plugins/blob/master/esdoc2-publish-markdown-plugin">Publish Markdown</a> [PoC]</li>
+<li><a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-inject-style-plugin">Inject Style</a></li>
+<li><a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-inject-script-plugin">Inject Script</a></li>
+<li><a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-ecmascript-proposal-plugin">ECMAScript Proposal</a></li>
+<li><a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-flow-type-plugin">Flow</a> [PoC]</li>
+<li><a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-typescript-plugin">TypeScript</a> [PoC]</li>
+<li><a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-jsx-plugin">JSX</a></li>
+<li><a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-react-plugin">React</a> [PoC]</li>
+<li><a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-publish-markdown-plugin">Publish Markdown</a> [PoC]</li>
 <li><a href="https://github.com/esdoc2/esdoc2-plugins">and more</a></li>
 </ul>
 <h2 id="doc-comment-and-tag">Doc Comment and Tag</h2><p>esdoc2 obtains a comment called <code>doc comment</code> from a source code. <br>
@@ -247,10 +247,10 @@ ES modules syntax is file base. So esdoc2 treats as one file = one module.</p>
 </ul>
 <p>This is useful because you not need to see export style in source code.</p>
 <p><img src="./manual/./asset/image/feature/module1.png" class="screen-shot" width="500px"></p>
-<p>And you may as well as use <a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-importpath-plugin">esdoc2-importpath-plugin</a> to transform path.</p>
+<p>And you may as well as use <a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-importpath-plugin">esdoc2-importpath-plugin</a> to transform path.</p>
 <p>Note: esdoc2 doesn&apos;t support commonjs.</p>
 <h2 id="plugin-architecture">Plugin Architecture</h2><p>esdoc2 adopts plugin architecture. So, almost all features are provided as plugins.</p>
-<p>Especially <a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-standard-plugin">esdoc2-standard-plugin</a> is a packaging plugin with major plugins.<br>
+<p>Especially <a href="https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-standard-plugin">esdoc2-standard-plugin</a> is a packaging plugin with major plugins.<br>
 Normally we recommend using this plugin. There are various plugins in <a href="https://github.com/esdoc2/esdoc2-plugins">esdoc2/esdoc2-plugins</a>.</p>
 <p>You can easily make plugins, and there are many <a href="https://www.npmjs.com/search?q=esdoc2%20plugin&amp;page=1&amp;ranking=optimal">third party plugins</a>.<br>
 Please click <a href="./manual/./api.html">here</a> for how to make plugins.</p>
