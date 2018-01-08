@@ -20,11 +20,11 @@
     - [Migration to v1.0](https://esdoc2.org/manual/migration.html)
     - [v0.5 documentation](https://esdoc2.org/v0.5/index.html)
 - **Feat**
-  - [esdoc2-publish-markdown-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-publish-markdown-plugin) PoC
-  - [esdoc2-flow-type-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-flow-type-plugin) PoC
-  - [esdoc2-typescript-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-typescript-plugin) PoC
-  - [esdoc2-react-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-react-plugin) PoC
-  - [esdoc2-jsx-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/esdoc2-jsx-plugin)
+  - [esdoc2-publish-markdown-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-publish-markdown-plugin) PoC
+  - [esdoc2-flow-type-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-flow-type-plugin) PoC
+  - [esdoc2-typescript-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-typescript-plugin) PoC
+  - [esdoc2-react-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-react-plugin) PoC
+  - [esdoc2-jsx-plugin](https://github.com/esdoc2/esdoc2-plugins/tree/master/packages/esdoc2-jsx-plugin)
 - **Note**
   - `v1.0.0` can not use. Because `v1.0.0` had been used in past.
 
