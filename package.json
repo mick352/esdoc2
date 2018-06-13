@@ -6,6 +6,13 @@
     "name": "Matt McFarland",
     "url": "http://esdoc2.org"
   },
+  "contributors": [
+    {
+      "name": "Conrad Buck",
+      "email": "conartist6@gmail.com",
+      "url": "https://burningpotato.com"
+    }
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
