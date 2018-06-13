@@ -2,7 +2,7 @@
   "name": "esdoc2",
   "version": "2.1.3",
   "description": "Better Documentation Generator For JavaScript",
-  "contributors": [
+  "collaborators": [
     {
       "name": "Conrad Buck",
       "email": "conartist6@gmail.com",
