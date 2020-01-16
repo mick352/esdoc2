@@ -51,7 +51,7 @@
     "escape-html": "~1.0.3",
     "fs-extra": "~4.0.2",
     "ice-cap": "~0.0.4",
-    "marked": "~0.3.9",
+    "marked": "~0.8.0",
     "minimist": "~1.2.0",
     "mkdirp": "~0.5.1",
     "npmlog": "~4.1.2",
